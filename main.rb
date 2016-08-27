@@ -2,8 +2,7 @@ require 'json'
 require 'sinatra'
 require 'slim'
 
-counter = 0
-contacts = {}
+require './modules/contacts.rb'
 
 # Esse o path que define endereço e nome para um visitante.
 # Tanto nesse caso como no path /register eu preferia ter usado o método post.
@@ -11,20 +10,13 @@ contacts = {}
 # ser empregados corretamente, mas o tempo não me permitiu conseguir fazer um
 # post cross-domain. Bem que eu tentei.
 get '/identify' do
-
     callback = params.delete('callback') # jsonp
-    data = {}
 
-    contacts[params['id']]['email'] = params['email']
-    contacts[params['id']]['name'] = params['name']
-    data['id'] = params['id']
-
-    data = data.to_json
+    data = Contacts.identify(params['id'], params['email'], params['name'])
 
     content_type :js
     response = "#{callback}(#{data})"
     response
-
 end
 
 # Eis uma boa questão. Do modo que a aplicação funciona agora, toda visita a
@@ -46,39 +38,22 @@ end
 # exercício. Ou talvez o horário da última visita em cada página seja
 # relevante...)
 get '/register' do
-
     callback = params.delete('callback') # jsonp
-    data = {}
 
-    if params['id'] == '0'
-        contact = Hash.new
-        contact['visited'] = {
-            params['url'] => params['timestamp']
-        }
-        contacts[(counter += 1).to_s] = contact
-        data['id'] = counter
-    else
-        contacts[params['id']]['visited'][params['url']] = params['timestamp']
-        data['id'] = params['id']
-    end
-
-    data = data.to_json
+    data = Contacts.register(params['id'], params['url'], params['timestamp'])
 
     content_type :js
     response = "#{callback}(#{data})"
     response
-
 end
 
 get '/contacts/:id' do
-    contact = contacts[params[:id]]
-    contact['id'] = params[:id]
-    @contact = contact
+    @contact = Contacts.getByID(params['id'])
     slim :contact
 end
 
 get '/' do
-    @contacts = contacts
+    @contacts = Contacts.getAll()
     slim :index
 end
 
