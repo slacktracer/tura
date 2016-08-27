@@ -1,3 +1,15 @@
+# Assim que entendi minimamente como funcionam módulos em Ruby tratei de
+# tentar desacoplar minhas da manipulação de dados.
+
+# Eu estou usando um Hash como fonte de dados, eu poderia ter usado um arquivo
+# de texto e guardado os dados como JSON (ou eventualmente usar uma base de
+# dados de verdade, mas eu não sei como fazer isso com Ruby e Sinatra =P). Usei
+# a opção mais simples acreditando que não era esse ponto o mais importante do
+# exercício.
+
+# Esse modulo permite praticamente a manipulação direta dos dados que ele
+# deveria administrar. Não é um grande exemplo de módulo, mas no momento quebra
+# o galho.
 module Contacts
 
     def Contacts.getAll()
