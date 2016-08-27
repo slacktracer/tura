@@ -1,0 +1,6 @@
+h2 Contacts
+ul
+
+  - @contacts.each do |id, data|
+    li
+      <a href="/contacts/#{id}">#{id}: #{data['email']}</a>

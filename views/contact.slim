@@ -1,0 +1,12 @@
+h2 Contact
+
+<h3>ID: #{@contact['id']}</h3>
+<p><b>Nome:</b> #{@contact['name']}</p>
+<p><b>E-mail:</b> #{@contact['email']}</p>
+
+<h4>Páginas Visitadas</h4>
+ul
+- @contact['visited'].each do |url, timestamp|
+  <li>#{url}</li>
+
+<p><a href="/">View All Contacts</a>
