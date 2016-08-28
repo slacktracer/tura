@@ -10,6 +10,7 @@
 # Esse modulo permite praticamente a manipulação direta dos dados que ele
 # deveria administrar. Não é um grande exemplo de módulo, mas no momento quebra
 # o galho.
+require 'json'
 module Contacts
 
     def Contacts.getAll()
